@@ -14,10 +14,19 @@ jQuery(document).ready( function($) {
         list += '<li>' + items[i] + '</li>'; 
       }
 
-      list += '</ol></div>';
+      list += '</ol>';
     }
 
+    list += '<div id="ajex-refresh"><button>' + ajex.refresh + '</button></div>';
+
+    list += '</div>';
+
     return list;
+  }
+
+  // Returns HTML for the spinner
+  var ajex_spinner = function() {
+    return '<img src="' + ajex.spinner + '" width="32px" height="32px" />';
   }
 
   // Loads the list of items from our ajax, nopriv endpoint 'ajex_items'
@@ -34,6 +43,13 @@ jQuery(document).ready( function($) {
             },
             'json' ); // Yeah, we prefer to speak JSON
   }
+
+  // Refreshes the data from the database ... This could actually be done
+  // automatically at set intervals with JS's built in function setInterval as well
+  $('#ajex-frontend-items').on('click', '#ajex-refresh button', function(e) {
+    $('#ajex-frontend-items').html(ajex_spinner());
+    ajex_load_items();
+  });
 
   // ajex_load_items()
 

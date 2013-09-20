@@ -36,6 +36,8 @@ class AjexFrontEnd {
                           'ajex',
                           array( 'ajaxurl' => admin_url('admin-ajax.php'), 
                                  'title' => __('Cool List'),
+                                 'refresh' => __('Refresh'),
+                                 'spinner' => site_url(WPINC . '/images/wpspin-2x.gif'),
                                  'empty' => __('There aren\'t any items to display') ) );
     }
   }
