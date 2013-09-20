@@ -1,11 +1,14 @@
 jQuery(document).ready( function($) {
+  // HTML Snippet for each input box
   var ajex_item_input = function() {
     return '<li><input type="text" /></li>';
   }
 
+  // HTML Snippet for each input box
   $('#ajex-add-item').click( function(e) {
     e.preventDefault();
     $('ol#ajex-items').append( ajex_item_input );
+    $('#ajex-remove-item').show();
   });
 
   // We use $.on here because inputs can be placed dynamically

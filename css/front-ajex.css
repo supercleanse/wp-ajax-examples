@@ -1,0 +1,9 @@
+.ajex-hidden {
+  display: none;
+}
+
+#ajex-frontend-items-inner {
+  padding: 15px;
+  border: 1px solid black;
+  background: #ededed;
+}
