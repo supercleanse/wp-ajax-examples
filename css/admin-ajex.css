@@ -1,0 +1,10 @@
+.ajex-hidden {
+  display: none;
+}
+
+#ajex-actions button {
+  font-size: 18px;
+  width: 24px;
+  cursor: pointer;
+}
+

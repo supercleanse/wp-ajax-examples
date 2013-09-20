@@ -1,7 +1,11 @@
 <?php
 if(!defined('ABSPATH')) {die('You are not allowed to call this page directly.');}
 
-/** An example of some sweet ajax happening on the front end of WordPress. */
+/** An example of some sweet ajax happening on the front end of WordPress.
+  * This example would potentially be relevant if you had some dyanmic data
+  * that you wanted to load outside of the normal page load ... potentially
+  * to bypass caching.
+  */
 class AjexFrontEnd {
   public function __construct() {
     // Enqueue JS & CSS
@@ -47,6 +51,7 @@ class AjexFrontEnd {
     * Also shows a simple loading gif.
     */
   public function shortcode($atts, $content='') {
+    // Start getting ready to capture output with ob_start & ob_get_clean
     ob_start();
 
     ?>

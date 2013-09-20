@@ -1,34 +1,27 @@
 jQuery(document).ready( function($) {
   // HTML Snippet for each input box
   var ajex_item_input = function() {
-    return '<li><input type="text" /></li>';
+    return '<li class="ajex-hidden"><input type="text" /></li>';
   }
 
-  // HTML Snippet for each input box
+  // Add an item to the list
   $('#ajex-add-item').click( function(e) {
-    e.preventDefault();
-    $('ol#ajex-items').append( ajex_item_input );
+    // Append an new "hidden" list item
+    $('#ajex-items').append( ajex_item_input );
+   
+    // Animate the list item appearing
+    $('#ajex-items li:last').slideDown();
+
+    // Ensure the new item has the focus
+    $('#ajex-items li:last input').focus();
+
+    // We can now assume that there's an item that could be removed 
     $('#ajex-remove-item').show();
   });
 
-  // We use $.on here because inputs can be placed dynamically
-  // so we need to bind the event to the list itself
-  $('ol#ajex-items').on('keyup', 'input', function(e) {
-    e.preventDefault();
-
-    var args = {
-      action: 'ajex_save',
-      index: $(this).parent().prevAll().length,
-      wpnonce: ajex.wpnonce
-    };
-
-    // Yeah, we prefer to do everything with JSON
-    $.post( ajaxurl, args );
-  });
-
+  // Button used to remove an item from the list
   $('#ajex-remove-item').click( function(e) {
-    e.preventDefault();
-
+    // Setup the arguments to be sent to our endpoint handler in AjexAdmin
     var args = {
       action: 'ajex_remove',
       wpnonce: ajex.wpnonce
@@ -43,11 +36,34 @@ jQuery(document).ready( function($) {
                 $('#ajex-error').fadeIn();
               }
               else {
-                // Remove the last item from the list
-                $('#ajex-items li:last').slideUp({ complete: function(e) { $(this).remove(); } });
+                // Remove the last item from the list and hide the remove button if we're down to zero items
+                $('#ajex-items li:last').slideUp({
+                  complete: function(e) {
+                              $(this).remove();
+                              if( $('#ajex-items li').length <= 0 ) {
+                                $('#ajex-remove-item').hide();
+                              }
+                            }
+                });
+
               }
             },
             'json' ); // Yeah, we prefer to do everything with JSON
+  });
+
+  // We use $.on here because inputs can be placed dynamically
+  // so we need to bind the event to the list itself
+  $('ol#ajex-items').on('blur', 'input', function(e) {
+    // Setup the arguments to be sent to our endpoint handler in AjexAdmin
+    var args = {
+      action: 'ajex_save', // Name of the WordPress action
+      index: $(this).parent().prevAll().length, // Calculate the index of the item we're editing
+      item: $(this).val(), // New value
+      wpnonce: ajex.wpnonce // Nonce
+    };
+
+    // Issue the post and in this case ignore the endpoint's output
+    $.post( ajaxurl, args );
   });
 });
 
