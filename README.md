@@ -13,7 +13,7 @@ This example illustrates how you'd go about putting together some dynamic AJAX b
 
 This example shows how to put together a simple, dynamic list. Items in this list can be added, edited, and removed without submitting any kind of form post.
 
-### Front-End
+### Front-End (examples/AjexFrontEnd.php)
 
 This example illustrates how you'd go about putting together some dynamic AJAX based user interfaces on the front end of WordPress.
 
