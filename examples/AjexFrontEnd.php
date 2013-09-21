@@ -57,9 +57,7 @@ class AjexFrontEnd {
     ob_start();
 
     ?>
-    <div id="ajex-frontend-items">
-      <img src="<?php echo site_url(WPINC . '/images/wpspin-2x.gif'); ?>" width="32px" height="32px" />
-    </div>
+    <div id="ajex-frontend-items"></div>
     <?php
 
     return ob_get_clean();

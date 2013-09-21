@@ -73,8 +73,10 @@ class AjexAdmin {
 
   // An AJAX Endpoint must end with a die or exit ... to ensure that what's output is final
   public function save() {
-    // Validate nonce
-    if( !isset($_POST['wpnonce']) or !wp_verify_nonce( $_POST['wpnonce'], AJEX_PLUGIN_SLUG ) )
+    // Validate nonce and user capabilities
+    if( !isset($_POST['wpnonce']) or
+        !wp_verify_nonce( $_POST['wpnonce'], AJEX_PLUGIN_SLUG ) or
+        !current_user_can('manage_options') )
       die( json_encode( array( 'error' => __('Hey yo, why you creepin\'?') ) ) );
 
     // Validate inputs
@@ -86,7 +88,7 @@ class AjexAdmin {
     if( !is_array($items) ) { $items = array(); }
 
     // Set the item index we want
-    $items[ $_POST['index'] ] = $_POST['item'];
+    $items[ $_POST['index'] ] = stripslashes($_POST['item']);
 
     // Update the option
     update_option('ajex-items', $items);
@@ -97,8 +99,10 @@ class AjexAdmin {
 
   // An AJAX Endpoint must end with a die or exit ... to ensure that what's output is final
   public function remove() {
-    // Validate nonce
-    if( !isset($_POST['wpnonce']) or !wp_verify_nonce( $_POST['wpnonce'], AJEX_PLUGIN_SLUG ) )
+    // Validate nonce and user capabilities
+    if( !isset($_POST['wpnonce']) or
+        !wp_verify_nonce( $_POST['wpnonce'], AJEX_PLUGIN_SLUG )  or
+        !current_user_can('manage_options') )
       die( json_encode( array( 'error' => __('Hey yo, why you creepin\'?') ) ) );
 
     // Get items and validate there's something to remove ... if not output a message

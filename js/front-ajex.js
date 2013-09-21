@@ -17,7 +17,7 @@ jQuery(document).ready( function($) {
       list += '</ol>';
     }
 
-    list += '<div id="ajex-refresh"><button>' + ajex.refresh + '</button></div>';
+    //list += '<div id="ajex-refresh"><button>' + ajex.refresh + '</button></div>';
 
     list += '</div>';
 
@@ -31,8 +31,13 @@ jQuery(document).ready( function($) {
 
   // Loads the list of items from our ajax, nopriv endpoint 'ajex_items'
   var ajex_load_items = function() {
-    var args = { action: 'ajex_items' }; // Setup arguments ... in this case all we need is the action
+    // Replace content with the spinner before loading
+    $('#ajex-frontend-items').html(ajex_spinner());
 
+    // Setup arguments ... in this case all we need is the action
+    var args = { action: 'ajex_items' };
+
+    // Call our WordPress AJAX endpoint
     $.post( ajex.ajaxurl, args,
             function(res) {
               // Replace the inner html for ajex-frontend-items wrapper div
@@ -44,17 +49,11 @@ jQuery(document).ready( function($) {
             'json' ); // Yeah, we prefer to speak JSON
   }
 
-  // Refreshes the data from the database ... This could actually be done
-  // automatically at set intervals with JS's built in function setInterval as well
-  $('#ajex-frontend-items').on('click', '#ajex-refresh button', function(e) {
-    $('#ajex-frontend-items').html(ajex_spinner());
-    ajex_load_items();
-  });
+  // Initially load this thing (since setInterval waits before execution)
+  ajex_load_items();
 
-  // ajex_load_items()
-
-  // The setTimeout is purely here so we can see the sweet loading gif a bit longer
-  setTimeout( ajex_load_items, 1000 );
+  // Refreshes the data from the database at 10 second intervals
+  setInterval( ajex_load_items, 10000 );
 });
 
 
